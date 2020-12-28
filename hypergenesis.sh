@@ -6,7 +6,7 @@ set -e
 #             Configuration
 # - - - - - - - - - - - - - - - - - - - - - -
 
-dotfiles_repo='git@github.com:mattmcmanus/dotfiles.git'
+dotfiles_repo='https://github.com/briandonahue/dotfiles.git'
 dotfiles_location="$HOME/.dotfiles"
 
 hypergenesis_file_lists="$dotfiles_location/hypergenesis"
