@@ -28,10 +28,34 @@ install_npm_packages() {
 }
 
 install_brews() {
-  if test ! $(brew list | grep $1); then
-        log "Installing $1"
-		brew install $1 >/dev/null
-	else
-  	log "$1 already installed. Skipped."
+  install_m1_brew $1
+  if ! [[ $($?) -eq 0 ]]; then 
+    install_intel_brew $1
   fi
+}
+
+install_m1_brew() {
+  if test $(brew list | grep $1); then
+  	log "$1 already installed for ARM arch. Skipped."
+    return 0
+  else
+    if [[ -n $(brew search --formula $1) ]]; then
+      log "Installing $1 for ARM arch"
+      brew install --formula $1 >/dev/null
+      return 0
+    fi
+  fi
+  return 1
+}
+
+install_intel_brew() {
+  if test $(ibrew list | grep $1); then
+  	log "$1 already installed for Intel arch. Skipped."
+    return 0
+  else
+    log "Installing $1 for Intel arch"
+    ibrew install --formula $1 >/dev/null
+    return 0
+  fi
+  return 1
 }
